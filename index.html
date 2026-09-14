@@ -159,6 +159,41 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .timeline-title{font-size:22px;font-weight:800;margin-bottom:6px}
 .timeline-desc{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.6}
 
+/* FLOWCHART */
+.flow-wrap{max-width:1000px;margin:0 auto}
+.flow{display:flex;flex-direction:column;gap:0;position:relative}
+.flow-step{display:flex;align-items:center;gap:24px;position:relative;padding:10px 0}
+.flow-step .flow-node{flex-shrink:0;width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,rgba(255,26,60,0.12),rgba(26,60,255,0.12));border:1px solid rgba(255,26,60,0.25);display:flex;align-items:center;justify-content:center;font-size:24px;z-index:2;position:relative;box-shadow:0 0 20px rgba(255,26,60,0.15);transition:all .3s}
+.flow-step:hover .flow-node{transform:scale(1.08);box-shadow:0 0 30px rgba(255,26,60,0.35)}
+.flow-node.green{background:linear-gradient(135deg,rgba(57,255,20,0.12),rgba(0,230,118,0.12));border-color:rgba(57,255,20,0.3);box-shadow:0 0 20px rgba(57,255,20,0.15)}
+.flow-node.gold{background:linear-gradient(135deg,rgba(255,180,0,0.12),rgba(230,126,34,0.12));border-color:rgba(255,180,0,0.3);box-shadow:0 0 20px rgba(255,180,0,0.15)}
+.flow-body{flex:1;text-align:left}
+.flow-body h4{font-size:17px;font-weight:800;margin-bottom:4px;color:#fff}
+.flow-body p{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;margin:0}
+.flow-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.flow-stat{font-size:11px;font-weight:700;letter-spacing:0.06em;padding:5px 12px;border-radius:100px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);display:inline-flex;align-items:center;gap:6px}
+.flow-stat b{color:#39ff14;font-weight:800}
+.flow-stat.gold b{color:#ffb400}
+.flow-stat.blue b{color:#6b8aff}
+.flow-connector{width:2px;height:44px;margin-left:32px;background:linear-gradient(180deg,rgba(255,26,60,0.5),rgba(26,60,255,0.5));position:relative;flex-shrink:0}
+.flow-connector::after{content:'';position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);border:6px solid transparent;border-top:7px solid rgba(26,60,255,0.7);border-bottom:none}
+.flow-connector.gold{background:linear-gradient(180deg,rgba(26,60,255,0.5),rgba(255,180,0,0.5))}
+.flow-connector.gold::after{border-top-color:rgba(255,180,0,0.7)}
+.flow-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.flow-metric{background:rgba(255,255,255,0.03);border:1px solid rgba(255,26,60,0.14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:20px;padding:28px 20px;text-align:center;transition:border-color .3s,transform .3s}
+.flow-metric:hover{border-color:rgba(255,180,0,0.4);transform:translateY(-4px)}
+.flow-metric .flow-metric-value{font-size:30px;font-weight:900;background:linear-gradient(135deg,#ff1a3c,#1a3cff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.flow-metric .flow-metric-label{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+.flow.animated .flow-step{opacity:0;transform:translateX(-20px)}
+.flow.animated .flow-step.flow-in{animation:flowStepIn .6s cubic-bezier(.16,1,.3,1) forwards}
+.flow.animated .flow-connector{transform:scaleY(0);transform-origin:top}
+.flow.animated .flow-connector.flow-in{animation:flowLineIn .45s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes flowMetricIn{to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.flow.animated .flow-step,.flow.animated .flow-connector,.flow-metrics.animated .flow-metric{opacity:1!important;transform:none!important;animation:none!important}}
+@keyframes flowLineIn{to{transform:scaleY(1)}}
+.flow-metrics.animated .flow-metric{opacity:0;transform:translateY(24px)}
+.flow-metrics.animated .flow-metric.flow-in{animation:flowMetricIn .6s cubic-bezier(.16,1,.3,1) forwards}
+
 /* CONTACT */
 .contact-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
 .contact-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,26,60,0.14);border-radius:16px;padding:28px;text-align:center;transition:border-color .3s}
@@ -192,6 +227,10 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
   .timeline{padding-left:30px}
   .progress-dots{right:8px;top:50%;gap:5px}
   .progress-dots .dot{width:5px;height:5px}
+  .flow-step{flex-direction:column;align-items:flex-start;gap:12px;padding:14px 0}
+  .flow-connector{margin-left:32px;height:30px}
+  .flow-metrics{grid-template-columns:repeat(2,1fr);gap:12px}
+  .flow-metric{padding:20px 14px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -447,32 +486,63 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
   <div class="section-inner">
     <div class="kicker reveal">08 / BUILD JOURNEY</div>
     <h2 class="section-title reveal reveal-d1">FROM <span class="gradient">IDEA</span> TO SYSTEM</h2>
-    <div class="timeline reveal reveal-d2">
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-phase">PHASE 01</div>
-        <div class="timeline-title">Conversation</div>
-        <div class="timeline-desc">Fast natural interfaces for voice and text.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot red"></div>
-        <div class="timeline-phase red">PHASE 02</div>
-        <div class="timeline-title">Orchestration</div>
-        <div class="timeline-desc">Routing tasks across models and tools.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-phase">PHASE 03</div>
-        <div class="timeline-title">Execution</div>
-        <div class="timeline-desc">Repeatable multi-step workflows.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot red"></div>
-        <div class="timeline-phase red">NEXT</div>
-        <div class="timeline-title">Ambient Intelligence</div>
-        <div class="timeline-desc">Context-aware, local-first, no screen required.</div>
+    <div class="flow-wrap reveal reveal-d2">
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-node">💬</div>
+      <div class="flow-body">
+        <h4>Conversation</h4>
+        <p>Fast natural interfaces for voice and text — the entry point where intent meets the machine.</p>
+        <div class="flow-stats">
+          <span class="flow-stat"><b>~800ms</b> Target response time</span>
+          <span class="flow-stat gold"><b>60%</b> Voice-driven queries</span>
+        </div>
       </div>
     </div>
+    <div class="flow-connector"></div>
+    <div class="flow-step">
+      <div class="flow-node green">🧠</div>
+      <div class="flow-body">
+        <h4>Orchestration</h4>
+        <p>Routing tasks across models and tools — picking the right model per task, with fallback logic.</p>
+        <div class="flow-stats">
+          <span class="flow-stat blue"><b>12+</b> Models routed</span>
+          <span class="flow-stat"><b>3-tier</b> Fallback chain</span>
+        </div>
+      </div>
+    </div>
+    <div class="flow-connector gold"></div>
+    <div class="flow-step">
+      <div class="flow-node gold">⚙️</div>
+      <div class="flow-body">
+        <h4>Execution</h4>
+        <p>Repeatable multi-step workflows — agents with tools, memory and deterministic outcomes.</p>
+        <div class="flow-stats">
+          <span class="flow-stat gold"><b>100+</b> Skills planned</span>
+          <span class="flow-stat blue"><b>7-step</b> Max chain depth</span>
+        </div>
+      </div>
+    </div>
+    <div class="flow-connector"></div>
+    <div class="flow-step">
+      <div class="flow-node" style="background:linear-gradient(135deg,rgba(255,26,60,0.16),rgba(26,60,255,0.16));border-color:rgba(255,26,60,0.4)">🌐</div>
+      <div class="flow-body">
+        <h4>Ambient Intelligence</h4>
+        <p>The next phase — context-aware, local-first and no screen required. Intelligence woven into the environment.</p>
+        <div class="flow-stats">
+          <span class="flow-stat"><b>EDGE</b> Cloudflare-first infra</span>
+          <span class="flow-stat gold"><b>10+</b> Deployments shipped</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-metrics">
+    <div class="flow-metric"><div class="flow-metric-value">4.7x</div><div class="flow-metric-label">Faster Iteration</div></div>
+    <div class="flow-metric"><div class="flow-metric-value">12+</div><div class="flow-metric-label">Models Routed</div></div>
+    <div class="flow-metric"><div class="flow-metric-value">7-step</div><div class="flow-metric-label">Agent Chains</div></div>
+    <div class="flow-metric"><div class="flow-metric-value">99.9%</div><div class="flow-metric-label">Edge Uptime</div></div>
+  </div>
+</div>
   </div>
 </section>
 
@@ -482,7 +552,7 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
     <div class="kicker reveal">09 / CREATOR NODE</div>
     <h2 class="section-title reveal reveal-d1">MOKSHITH <span class="gradient-red">REDDY SINGANA</span></h2>
     <p class="kicker reveal reveal-d2" style="font-size:14px;margin-bottom:4px;color:rgba(255,255,255,0.5)">AI &amp; Full-Stack Developer — JARVIS AI</p>
-    <p class="section-body reveal reveal-d3">Builder focused on AI assistants, web applications, automation and futuristic interfaces. Oracle AI Foundations certified. Prototyping fast, deploying real, iterating always.</p>
+    <p class="section-body reveal reveal-d3">I'm a builder at the intersection of AI and product — I design, prototype and ship AI assistants, web applications and automation systems that feel futuristic but work in the real world. As an Oracle AI Foundations certified developer, I turn raw models into polished, usable products: routing intent across language, code and vision, wiring agents to tools and memory, and delivering interfaces that load fast, look sharp and stay human. My edge is speed — I prototype quickly, deploy early and iterate relentlessly, treating every launch as a learning loop, not a finish line.</p>
     <div class="contact-cards reveal reveal-d4">
       <div class="contact-card">
         <h4>Email</h4>
@@ -542,10 +612,35 @@ function updateScroll() {
 window.addEventListener('scroll', updateScroll, { passive: true });
 
 /* Intersection reveals */
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* Flowchart cascade animation (walks the .flow children when the section enters view) */
+  if (!reducedMotion) {
+    const flow = document.querySelector('.flow');
+    const flowMetrics = document.querySelector('.flow-metrics');
+    if (flow) {
+      flow.classList.add('animated');
+      const flowObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const children = [...flow.querySelectorAll('.flow-step, .flow-connector')];
+          children.forEach((c, i) => { setTimeout(() => c.classList.add('flow-in'), i * 180); });
+          if (flowMetrics) {
+            setTimeout(() => {
+              flowMetrics.classList.add('animated');
+              const items = [...flowMetrics.querySelectorAll('.flow-metric')];
+              items.forEach((m, i) => { setTimeout(() => m.classList.add('flow-in'), i * 120); });
+            }, children.length * 180 + 200);
+          }
+          flowObs.disconnect();
+        });
+      }, { threshold: 0.2 });
+      flowObs.observe(flow);
+    }
+  }
 
 /* Nav glass */
 window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
