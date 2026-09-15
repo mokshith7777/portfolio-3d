@@ -184,15 +184,15 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .flow-metric:hover{border-color:rgba(255,180,0,0.4);transform:translateY(-4px)}
 .flow-metric .flow-metric-value{font-size:30px;font-weight:900;background:linear-gradient(135deg,#ff1a3c,#1a3cff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
 .flow-metric .flow-metric-label{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
-.flow.animated .flow-step{opacity:0;transform:translateX(-20px)}
-.flow.animated .flow-step.flow-in{animation:flowStepIn .6s cubic-bezier(.16,1,.3,1) forwards}
-.flow.animated .flow-connector{transform:scaleY(0);transform-origin:top}
-.flow.animated .flow-connector.flow-in{animation:flowLineIn .45s cubic-bezier(.16,1,.3,1) forwards}
-@keyframes flowMetricIn{to{opacity:1;transform:translateY(0)}}
+.flow.animated .flow-step{opacity:0;transform:translateX(-20px);animation:flowStepIn .6s cubic-bezier(.16,1,.3,1) forwards}
+.flow.animated .flow-step.flow-in{opacity:1;transform:translateX(0)}
+.flow.animated .flow-connector{transform:scaleY(0);transform-origin:top;animation:flowLineIn .45s cubic-bezier(.16,1,.3,1) forwards}
+.flow.animated .flow-connector.flow-in{transform:scaleY(1)}
+@keyframes flowStepIn{to{opacity:1;transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.flow.animated .flow-step,.flow.animated .flow-connector,.flow-metrics.animated .flow-metric{opacity:1!important;transform:none!important;animation:none!important}}
 @keyframes flowLineIn{to{transform:scaleY(1)}}
-.flow-metrics.animated .flow-metric{opacity:0;transform:translateY(24px)}
-.flow-metrics.animated .flow-metric.flow-in{animation:flowMetricIn .6s cubic-bezier(.16,1,.3,1) forwards}
+.flow-metrics.animated .flow-metric{opacity:0;transform:translateY(24px);animation:flowMetricIn .6s cubic-bezier(.16,1,.3,1) forwards}
+.flow-metrics.animated .flow-metric.flow-in{opacity:1;transform:translateY(0)}
 
 /* CONTACT */
 .contact-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
