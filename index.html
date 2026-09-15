@@ -123,6 +123,16 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .video-meta{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:8px}
 .video-desc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6}
 
+/* VIDEO MODAL */
+.video-modal{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.video-modal.open{display:flex;opacity:1}
+.video-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.video-modal-box{position:relative;z-index:1;width:min(900px,92vw);border-radius:16px;overflow:hidden;background:#0a0a12;border:1px solid rgba(255,26,60,0.3);box-shadow:0 0 60px rgba(255,26,60,0.25),0 30px 80px rgba(0,0,0,0.8)}
+.video-modal-close{position:absolute;top:12px;right:14px;z-index:2;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.video-modal-close:hover{background:rgba(255,26,60,0.7);transform:scale(1.08)}
+.video-modal-title{font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);padding:16px 20px 4px}
+.video-modal-player{width:100%;aspect-ratio:16/9;display:block;background:#000}
+
 /* TESTIMONIALS */
 #testimonials{background:radial-gradient(ellipse at 50% 45%,rgba(255,180,0,0.05),transparent 70%)}
 .testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -390,7 +400,7 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
     <h2 class="section-title reveal reveal-d1">EDITING WITH <span class="gradient">INTENT</span></h2>
     <p class="section-body reveal reveal-d2">AI-assisted edits, explainer pipelines and motion graphics — short-form video built around a hook, a narrative and a payoff.</p>
     <div class="video-grid">
-      <div class="video-card reveal reveal-d2" style="--acc:#ff1a3c">
+      <div class="video-card reveal reveal-d2" style="--acc:#ff1a3c" data-video="media/jarvis.mp4" data-title="JARVIS AI Video Editor">
         <div class="video-thumb" style="background:linear-gradient(135deg,#ff1a3c 0%,#7a0a1c 55%,#16060d 100%)">
           <div class="video-play" title="Play" aria-label="Play JARVIS AI Video Editor demo">▶</div>
         </div>
@@ -398,7 +408,7 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
         <div class="video-meta">02:48 &bull; Product Demo</div>
         <p class="video-desc">AI-assist editing product — natural-language commands drive the cut; color and sound stay human.</p>
       </div>
-      <div class="video-card reveal reveal-d3" style="--acc:#1a3cff">
+      <div class="video-card reveal reveal-d3" style="--acc:#1a3cff" data-video="media/explainer.mp4" data-title="YouTube AI Explainer Series">
         <div class="video-thumb" style="background:linear-gradient(135deg,#1a3cff 0%,#0a1a66 55%,#060a1e 100%)">
           <div class="video-play" title="Play" aria-label="Play YouTube AI Explainer Series reel">▶</div>
         </div>
@@ -406,7 +416,7 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
         <div class="video-meta">02:30 &bull; Editor / Voiceover</div>
         <p class="video-desc">AI TTS voiceover, chaptered narrative, oversized stat callouts — cold-open hooks in 16:9, 2-3 minutes.</p>
       </div>
-      <div class="video-card reveal reveal-d4" style="--acc:#39ff14">
+      <div class="video-card reveal reveal-d4" style="--acc:#39ff14" data-video="media/motion.mp4" data-title="Motion-Graphics Shorts">
         <div class="video-thumb" style="background:linear-gradient(135deg,#39ff14 0%,#0e7a08 55%,#0a1405 100%)">
           <div class="video-play" title="Play" aria-label="Play Motion-Graphics Shorts reel">▶</div>
         </div>
@@ -414,7 +424,7 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
         <div class="video-meta">00:45 &bull; Motion Design</div>
         <p class="video-desc">Kinetic type, logo stings and UI flourishes built frame-by-frame for punchy social cuts.</p>
       </div>
-      <div class="video-card reveal reveal-d5" style="--acc:#ffb400">
+      <div class="video-card reveal reveal-d5" style="--acc:#ffb400" data-video="media/reactor.mp4" data-title="Arc-Reactor WebGL Reel">
         <div class="video-thumb" style="background:linear-gradient(135deg,#ffb400 0%,#8a5a00 55%,#1e1405 100%)">
           <div class="video-play" title="Play" aria-label="Play Arc-Reactor WebGL Reel">▶</div>
         </div>
@@ -425,6 +435,16 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
     </div>
   </div>
 </section>
+
+<!-- VIDEO MODAL -->
+<div id="video-modal" class="video-modal" aria-hidden="true">
+  <div class="video-modal-backdrop" data-close></div>
+  <div class="video-modal-box">
+    <button class="video-modal-close" data-close aria-label="Close">&times;</button>
+    <div class="video-modal-title"></div>
+    <video class="video-modal-player" controls playsinline preload="none" src=""></video>
+  </div>
+</div>
 
 <!-- TESTIMONIALS -->
 <section id="testimonials">
@@ -644,6 +664,35 @@ window.addEventListener('scroll', updateScroll, { passive: true });
 
 /* Nav glass */
 window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+/* Video modal */
+const videoModal = document.getElementById('video-modal');
+const videoPlayer = videoModal ? videoModal.querySelector('.video-modal-player') : null;
+const videoTitle = videoModal ? videoModal.querySelector('.video-modal-title') : null;
+document.querySelectorAll('.video-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const src = card.dataset.video;
+    const title = card.dataset.title || '';
+    if (!src || !videoModal || !videoPlayer) return;
+    videoPlayer.src = src;
+    if (videoTitle) videoTitle.textContent = title;
+    videoModal.classList.add('open');
+    videoModal.setAttribute('aria-hidden', 'false');
+    videoPlayer.play().catch(() => {});
+  });
+});
+function closeVideoModal() {
+  if (!videoModal || !videoPlayer) return;
+  videoModal.classList.remove('open');
+  videoModal.setAttribute('aria-hidden', 'true');
+  videoPlayer.pause();
+  videoPlayer.removeAttribute('src');
+  videoPlayer.load();
+}
+if (videoModal) {
+  videoModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeVideoModal));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideoModal(); });
+}
 
 /* Progress dots */
 const sections = document.querySelectorAll('section');
